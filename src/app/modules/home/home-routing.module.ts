@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CalendarComponent } from './pages/calendar/calendar.component';
+import { MonthComponent } from './pages/month/month.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: CalendarComponent,
+    component: MonthComponent,
   },
 ];
 

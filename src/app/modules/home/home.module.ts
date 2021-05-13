@@ -1,16 +1,13 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { HomeRoutingModule } from './home-routing.module';
-import { CalendarComponent } from './pages/calendar/calendar.component';
+import { NgModule } from '@angular/core';
 import { DayComponent } from './components/day/day.component';
-import { MonthComponent } from './components/month/month.component';
-import { environment } from 'src/environments/environment';
+import { HomeRoutingModule } from './home-routing.module';
+import { MonthComponent } from './pages/month/month.component';
+
 
 
 @NgModule({
   declarations: [
-    CalendarComponent,
     DayComponent,
     MonthComponent
   ],

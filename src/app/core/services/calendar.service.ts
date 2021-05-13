@@ -8,7 +8,7 @@ import { Month } from 'src/app/shared/models/month';
 })
 export class CalendarService {
 
-  readonly dayNames = getLocaleDayNames('es-CO', FormStyle.Standalone, TranslationWidth.Wide);
+  readonly dayNames = getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Wide);
 
   constructor(@Inject(LOCALE_ID) private locale: string) { }
 
@@ -24,7 +24,7 @@ export class CalendarService {
     };
 
     const prev = this.daysMonthPrev(firstDayMonth, lastDayMonthPrev);
-    const days = this.daysMonth(lastDayMonth);
+    const days = this.arrayFrom(lastDayMonth.getDate(), false);
     const next = this.daysMonthNext(lastDayMonth);
     month.days = prev.concat(days).concat(next);
     return month;
@@ -32,38 +32,24 @@ export class CalendarService {
 
   private daysMonthPrev(firstDayMonth: Date, lastDayMonthPrev: number): Day[] {
     if (firstDayMonth.getDay() === 0) { return []; }
-    let index = lastDayMonthPrev - firstDayMonth.getDay();
-    const daysPrev = Array.from({ length: firstDayMonth.getDay() }, (v, i) => {
-      return {
-        name: ++index,
-        disabled: true,
-        events: []
-      };
-    });
-    return daysPrev;
-  }
-
-  private daysMonth(lastDayMonth: Date): Day[] {
-    console.log(lastDayMonth.getDate());
-    return Array.from({ length: lastDayMonth.getDate() }, (v, i) => {
-      return {
-        name: ++i,
-        disabled: false,
-        events: []
-      };
-    });
+    const index = lastDayMonthPrev - firstDayMonth.getDay();
+    return this.arrayFrom(firstDayMonth.getDay(), true, index);
   }
 
   private daysMonthNext(lastDayMonth: Date): Day[] {
     if (lastDayMonth.getDay() === 6) { return []; }
     const index = 6 - lastDayMonth.getDay();
-    const daysPrev = Array.from({ length: index }, (v, i) => {
+    return this.arrayFrom(index, true);
+  }
+
+  private arrayFrom(length: number, disabled: boolean, day: number = 0): Day[] {
+    return Array.from({ length }, (v, i) => {
+      let index = i + day;
       return {
-        name: ++i,
-        disabled: true,
+        name: ++index,
+        disabled,
         events: []
       };
     });
-    return daysPrev;
   }
 }

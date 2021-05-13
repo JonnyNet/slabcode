@@ -2,6 +2,7 @@
 
 :host {
     .month {
+        padding: 1em;
         .header {
             padding: .2em 0;
             background-color: $grey;
@@ -22,6 +23,7 @@
             .title {
                 font-size: 40px;
                 max-width: 80%;
+                text-transform: capitalize;
             }
         }
         .header-day {

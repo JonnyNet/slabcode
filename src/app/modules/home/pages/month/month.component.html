@@ -1,9 +1,9 @@
-<div class="month">
+<div class="month" *ngIf="month$ | async as month">
     <div class="header row text-center">
         <div class="back fill-row">
             <button class="btn">&lt;</button>
         </div>
-        <div class="title fill-row">{{ title }}</div>
+        <div class="title fill-row">{{ month.name }}</div>
         <div class="next fill-row">
             <button class="btn">&gt;</button>
         </div>
@@ -13,5 +13,7 @@
             <span>{{ name }}</span>
         </div>
     </div>
-    <div class="days"></div>
+    <div class="days">
+        <div *ngFor="let day of month.days">{{ day.name }}</div>
+    </div>
 </div>
