@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { CalendarService } from 'src/app/core/services/calendar.service';
 
 @Component({
   selector: 'app-month',
@@ -7,8 +8,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class MonthComponent implements OnInit {
 
-  @Input()
-  title!: string;
+
+  title = '';
 
   @Output()
   next = new EventEmitter();
@@ -16,7 +17,7 @@ export class MonthComponent implements OnInit {
   @Output()
   back = new EventEmitter();
 
-  constructor() { }
+  constructor(public readonly calendarService: CalendarService) { }
 
   ngOnInit(): void {
   }

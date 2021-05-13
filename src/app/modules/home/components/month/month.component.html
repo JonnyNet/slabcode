@@ -8,8 +8,10 @@
             <button class="btn">&gt;</button>
         </div>
     </div>
-    <div class="header-day">
-        <div class="name-day" *ngFor=""></div>
+    <div class="header-day row">
+        <div class="name-day text-center" *ngFor="let name of calendarService.dayNames">
+            <span>{{ name }}</span>
+        </div>
     </div>
     <div class="days"></div>
 </div>

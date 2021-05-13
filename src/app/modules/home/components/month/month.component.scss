@@ -1,6 +1,11 @@
+@import '../../../../app.theme.scss';
+
 :host {
     .month {
         .header {
+            padding: .2em 0;
+            background-color: $grey;
+            border-radius: 5px;
             .back,
             .next {
                 max-width: 10%;
@@ -17,6 +22,18 @@
             .title {
                 font-size: 40px;
                 max-width: 80%;
+            }
+        }
+        .header-day {
+            margin-top: 5px;
+            justify-content: space-between;
+            align-items: center;
+            background: $primary-color;
+            color: $white;
+            padding: .5rem 0px;
+            .name-day {
+                width: 14.2%;
+                text-transform: capitalize;
             }
         }
     }

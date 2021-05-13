@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { FormStyle, getLocaleDayNames, TranslationWidth } from '@angular/common';
+import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { Day } from 'src/app/shared/models/day';
 import { Month } from 'src/app/shared/models/month';
 
@@ -7,7 +8,9 @@ import { Month } from 'src/app/shared/models/month';
 })
 export class CalendarService {
 
-  constructor() { }
+  readonly dayNames = getLocaleDayNames('es-CO', FormStyle.Standalone, TranslationWidth.Wide);
+
+  constructor(@Inject(LOCALE_ID) private locale: string) { }
 
   getListDaysMonth(year: number, monthNumber: number): Month {
     const lastDayMonthPrev = new Date(year, monthNumber, 0).getDate();
@@ -15,7 +18,7 @@ export class CalendarService {
     const lastDayMonth = new Date(year, monthNumber + 1, 0);
 
     const month: Month = {
-      name: firstDayMonth.toLocaleString('default', { month: 'long' }),
+      name: firstDayMonth.toLocaleString(this.locale, { month: 'long' }),
       index: monthNumber,
       days: new Array<Day>(),
     };
