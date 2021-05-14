@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Calendar } from 'src/app/shared/models/calendar';
 import { Store } from 'src/app/shared/store/store';
@@ -22,7 +23,16 @@ export class CalendarStoreService extends Store<Calendar> {
 
   getCurrentMonth(): void {
     const month = this.calendarService.getListDaysMonth(this.today.getFullYear(), this.today.getMonth());
-    this.state.month.push(month),
+    month.days = month.days.map(x => {
+      if (x.name < this.today.getDate() && !x.disabled) {
+        return {
+          ...x,
+          disabled: (x.name < this.today.getDate() && !x.disabled)
+        };
+      }
+      return x;
+    });
+    this.state.month.push(month);
     this.setState({
       ...this.state,
       currentMonth: this.today.getMonth(),

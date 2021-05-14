@@ -1,0 +1,20 @@
+@import "../../../../app.theme.scss";
+
+:host {
+    .day {
+        height: 120px;
+        box-shadow: -1px -1px $primary-color, inset -1px -1px 0 0 $primary-color;
+        cursor: pointer;
+        padding: 10px;
+        color: $active-day;
+    }
+
+    .wee-kend {
+        background: $grey;
+        color: $primary-color;
+    }
+
+    .disabled{
+        color: $disabled-day;
+    }
+}

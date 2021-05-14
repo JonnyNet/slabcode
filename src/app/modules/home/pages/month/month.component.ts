@@ -1,8 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CalendarStoreService } from 'src/app/core/services/calendar-store.service';
 import { CalendarService } from 'src/app/core/services/calendar.service';
-import { Calendar } from 'src/app/shared/models/calendar';
+import { Day } from 'src/app/shared/models/day';
 import { Month } from 'src/app/shared/models/month';
 
 @Component({
@@ -10,7 +10,7 @@ import { Month } from 'src/app/shared/models/month';
   templateUrl: './month.component.html',
   styleUrls: ['./month.component.scss']
 })
-export class MonthComponent implements OnInit {
+export class MonthComponent {
 
   month$!: Observable<Month>;
 
@@ -21,10 +21,8 @@ export class MonthComponent implements OnInit {
     this.storaService.getCurrentMonth();
   }
 
-  ngOnInit(): void {
-    this.month$.subscribe(res => {
-      console.log(res);
-    });
+  clickDay(day: Day): void {
+    console.log(day);
   }
 
 }

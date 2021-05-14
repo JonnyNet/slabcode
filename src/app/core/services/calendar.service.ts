@@ -13,9 +13,10 @@ export class CalendarService {
   constructor(@Inject(LOCALE_ID) private locale: string) { }
 
   getListDaysMonth(year: number, monthNumber: number): Month {
-    const lastDayMonthPrev = new Date(year, monthNumber, 0).getDate();
+    const lastDayMonthPrev = new Date(year, monthNumber, 0);
     const firstDayMonth = new Date(year, monthNumber, 1);
     const lastDayMonth = new Date(year, monthNumber + 1, 0);
+    const firstDayMonthNext = new Date(year, monthNumber + 1, 1);
 
     const month: Month = {
       name: firstDayMonth.toLocaleString(this.locale, { month: 'long' }),
@@ -24,30 +25,33 @@ export class CalendarService {
     };
 
     const prev = this.daysMonthPrev(firstDayMonth, lastDayMonthPrev);
-    const days = this.arrayFrom(lastDayMonth.getDate(), false);
-    const next = this.daysMonthNext(lastDayMonth);
+    const days = this.arrayFrom(firstDayMonth, lastDayMonth.getDate(), false);
+    const next = this.daysMonthNext(lastDayMonth, firstDayMonthNext);
     month.days = prev.concat(days).concat(next);
     return month;
   }
 
-  private daysMonthPrev(firstDayMonth: Date, lastDayMonthPrev: number): Day[] {
+  private daysMonthPrev(firstDayMonth: Date, lastDayMonthPrev: Date): Day[] {
     if (firstDayMonth.getDay() === 0) { return []; }
-    const index = lastDayMonthPrev - firstDayMonth.getDay();
-    return this.arrayFrom(firstDayMonth.getDay(), true, index);
+    const index = lastDayMonthPrev.getDate() - firstDayMonth.getDay();
+    return this.arrayFrom(lastDayMonthPrev, firstDayMonth.getDay(), true, index);
   }
 
-  private daysMonthNext(lastDayMonth: Date): Day[] {
+  private daysMonthNext(lastDayMonth: Date, firstDayMonthNext: Date): Day[] {
     if (lastDayMonth.getDay() === 6) { return []; }
     const index = 6 - lastDayMonth.getDay();
-    return this.arrayFrom(index, true);
+    return this.arrayFrom(firstDayMonthNext, index, true);
   }
 
-  private arrayFrom(length: number, disabled: boolean, day: number = 0): Day[] {
+  private arrayFrom(date: Date, length: number, disabled: boolean, day: number = 0): Day[] {
+    const newDate = new Date(date);
     return Array.from({ length }, (v, i) => {
       let index = i + day;
+      newDate.setDate(++index);
       return {
-        name: ++index,
+        name: index,
         disabled,
+        dayOfWeek: newDate.getDay(),
         events: []
       };
     });

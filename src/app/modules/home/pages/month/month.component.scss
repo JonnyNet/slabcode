@@ -1,10 +1,10 @@
-@import '../../../../app.theme.scss';
+@import "../../../../app.theme.scss";
 
 :host {
     .month {
         padding: 1em;
         .header {
-            padding: .2em 0;
+            padding: 0.2em 0;
             background-color: $grey;
             border-radius: 5px;
             .back,
@@ -14,9 +14,10 @@
                     width: 3rem;
                     height: 3rem;
                     border-radius: 50%;
-                    background-color: grey;
-                    border: 1px solid black;
+                    background-color: $white;
+                    border: 1px solid $disabled-day;
                     font-weight: bold;
+                    cursor: pointer;
                 }
             }
 
@@ -32,10 +33,19 @@
             align-items: center;
             background: $primary-color;
             color: $white;
-            padding: .5rem 0px;
+            padding: 0.5rem 0px;
             .name-day {
-                width: 14.2%;
+                width: 14.285%;
                 text-transform: capitalize;
+            }
+        }
+
+        .days {
+            display: flex;
+            flex-wrap: wrap;
+padding-left: 1px;
+            * {
+                flex: 1 1 14.285%;
             }
         }
     }

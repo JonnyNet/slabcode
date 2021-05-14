@@ -1,1 +1,4 @@
-<p>day works!</p>
+<div class="day" [ngClass]="{'wee-kend': day.dayOfWeek === 0 || day.dayOfWeek === 6, 'disabled' : day.disabled }"
+    (click)="clickDay.next(day)">
+    <div class="number-day">{{ day.name }}</div>
+</div>

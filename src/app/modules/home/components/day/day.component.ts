@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Day } from 'src/app/shared/models/day';
 
 @Component({
   selector: 'app-day',
   templateUrl: './day.component.html',
   styleUrls: ['./day.component.scss']
 })
-export class DayComponent implements OnInit {
+export class DayComponent {
 
-  constructor() { }
+  @Input()
+  day!: Day;
 
-  ngOnInit(): void {
-  }
+  @Output()
+  clickDay = new EventEmitter();
 
 }
