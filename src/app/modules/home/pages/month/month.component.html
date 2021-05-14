@@ -1,11 +1,11 @@
 <div class="month" *ngIf="month$ | async as month">
     <div class="header row text-center">
         <div class="back fill-row">
-            <button class="btn">&lt;</button>
+            <button class="btn" [disabled]="month.prev" (click)="getNewMonth(month.year, month.index, - 1)">&lt;</button>
         </div>
         <div class="title fill-row">{{ month.name }}</div>
         <div class="next fill-row">
-            <button class="btn">&gt;</button>
+            <button class="btn" (click)="getNewMonth(month.year, month.index, + 1)">&gt;</button>
         </div>
     </div>
     <div class="header-day row">

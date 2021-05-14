@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Calendar } from 'src/app/shared/models/calendar';
+import { Month } from 'src/app/shared/models/month';
 import { Store } from 'src/app/shared/store/store';
 import { CalendarService } from './calendar.service';
 
@@ -11,31 +11,31 @@ import { CalendarService } from './calendar.service';
 })
 export class CalendarStoreService extends Store<Calendar> {
 
-  private today = new Date();
-  readonly month$ = this.state$.pipe(map(x => x.month.filter(i => i.index === x.currentMonth)[0]));
+  readonly month$ = this.state$.pipe(map(x => x.month));
 
   constructor(private calendarService: CalendarService) {
     super({
-      month: [],
-      currentMonth: -1
+      month: {} as Month,
+      events: []
     });
   }
 
   getCurrentMonth(): void {
-    const month = this.calendarService.getListDaysMonth(this.today.getFullYear(), this.today.getMonth());
-    month.days = month.days.map(x => {
-      if (x.name < this.today.getDate() && !x.disabled) {
-        return {
-          ...x,
-          disabled: (x.name < this.today.getDate() && !x.disabled)
-        };
-      }
-      return x;
-    });
-    this.state.month.push(month);
+    const year = this.calendarService.currentYear;
+    const month = this.calendarService.currentMonth;
+    const item = this.calendarService.getListDaysMonth(year, month);
+    this.setMonthState(item);
+  }
+
+  getMonth(index: number, year: number): void {
+    const month = this.calendarService.getListDaysMonth(year, index);
+    this.setMonthState(month);
+  }
+
+  private setMonthState(month: Month): void {
     this.setState({
       ...this.state,
-      currentMonth: this.today.getMonth(),
+      month,
     });
   }
 

@@ -8,6 +8,7 @@ import { Month } from 'src/app/shared/models/month';
 })
 export class CalendarService {
 
+  private today = new Date();
   readonly dayNames = getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Wide);
 
   constructor(@Inject(LOCALE_ID) private locale: string) { }
@@ -19,15 +20,40 @@ export class CalendarService {
     const firstDayMonthNext = new Date(year, monthNumber + 1, 1);
 
     const month: Month = {
-      name: firstDayMonth.toLocaleString(this.locale, { month: 'long' }),
+      name: `${firstDayMonth.toLocaleString(this.locale, { month: 'long' })} ${year}`,
       index: monthNumber,
+      year,
       days: new Array<Day>(),
+      prev: (year === this.currentYear && monthNumber === this.currentMonth),
     };
 
     const prev = this.daysMonthPrev(firstDayMonth, lastDayMonthPrev);
     const days = this.arrayFrom(firstDayMonth, lastDayMonth.getDate(), false);
     const next = this.daysMonthNext(lastDayMonth, firstDayMonthNext);
     month.days = prev.concat(days).concat(next);
+    return this.validCurrentMonth(month);
+  }
+
+  get currentMonth(): number {
+    return this.today.getMonth();
+  }
+
+  get currentYear(): number {
+    return this.today.getFullYear();
+  }
+
+  private validCurrentMonth(month: Month): Month {
+    if (this.currentYear === month.year && this.currentMonth === month.index) {
+      month.days = month.days.map(x => {
+        if (x.name < this.today.getDate() && !x.disabled) {
+          return {
+            ...x,
+            disabled: (x.name < this.today.getDate() && !x.disabled)
+          };
+        }
+        return x;
+      });
+    }
     return month;
   }
 

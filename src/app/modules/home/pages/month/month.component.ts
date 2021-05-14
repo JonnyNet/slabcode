@@ -16,13 +16,19 @@ export class MonthComponent {
 
   constructor(
     public readonly calendarService: CalendarService,
-    private storaService: CalendarStoreService) {
+    public readonly storaService: CalendarStoreService) {
     this.month$ = this.storaService.month$;
     this.storaService.getCurrentMonth();
   }
 
   clickDay(day: Day): void {
+    if (day.disabled) { return; }
     console.log(day);
   }
 
+  getNewMonth(year: number, month: number, action: number): void {
+    const date = new Date(year, month);
+    date.setMonth(date.getMonth() + action);
+    this.storaService.getMonth(date.getMonth(), date.getFullYear());
+  }
 }
