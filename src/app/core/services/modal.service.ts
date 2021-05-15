@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { DataModal } from 'src/app/shared/models/data-modal';
 
 export interface StateModal {
-  state: 'open' | 'close';
+  state: 'open' | 'close' ;
   data?: DataModal;
 }
 

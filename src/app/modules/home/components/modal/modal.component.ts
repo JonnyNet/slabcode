@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of, Subscription } from 'rxjs';
-import { catchError, concatMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { ConfigService } from 'src/app/core/services/config.service';
 import { ModalService, StateModal } from 'src/app/core/services/modal.service';
 import { OpenWeatherService } from 'src/app/core/services/open-weather.service';
@@ -47,7 +47,11 @@ export class ModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.form.controls.city.valueChanges.subscribe(e => console.log(e));
+    // this.forecast$ = this.form.controls.city.valueChanges.pipe(
+    //   tap(e => console.log(e)),
+    //   switchMap(id => this.openWeatherService.forecast(id)),
+    //   catchError(e => of(e))
+    // );
 
     // this.forecast$.subscribe(res => console.log(res));
 
@@ -72,6 +76,13 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   close(): void {
     this.modalService.close();
+  }
+
+  delete(): void {
+    this.modalService.close({
+      ...this.data,
+      delete: true
+    });
   }
 
   save(): void {

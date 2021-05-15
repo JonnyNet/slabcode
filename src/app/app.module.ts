@@ -1,13 +1,12 @@
 import { registerLocaleData } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CalendarService } from './core/services/calendar.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ConfigService } from './core/services/config.service';
-import { CalendarStoreService } from './core/services/calendar-store.service';
 
 
 import('@angular/common/locales/' + environment.language + '.js').then(locale => {

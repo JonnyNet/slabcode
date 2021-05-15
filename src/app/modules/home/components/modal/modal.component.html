@@ -1,7 +1,8 @@
 <ng-container *ngIf="display$ | async as display">
     <section [class.open]="display.state === 'open'" (click)="close()">
         <div (click)="$event.stopPropagation()">
-            <button class="close" type="button" (click)="close()">X</button>
+            <button class="button-modal close" type="button" (click)="close()">X</button>
+            <button class="button-modal delete" type="button" (click)="delete()" *ngIf="data.event">Delete</button>
             <h3 class="text-center">Reminder</h3>
             <div class="modal-container">
                 <form [formGroup]="form" (ngSubmit)="save()">

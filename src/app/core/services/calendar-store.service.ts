@@ -37,8 +37,16 @@ export class CalendarStoreService extends Store<Calendar> {
   }
 
   saveEvent(data: DataModal): void {
-    if (!data.event?.id) { return this.createEvent(data); }
-    this.updateEvent(data);
+    const event = data.event as EventDay;
+    if (data.delete) { return this.deleteEvent(data, event); }
+    if (!event.id) { return this.createEvent(data); }
+    this.updateEvent(data, event);
+  }
+
+  private deleteEvent(data: DataModal, event: EventDay): void {
+    const item = this.findDayByMonth(data.day);
+    item.events = item.events.filter(x => x.id !== event.id);
+    this.sortAndSetState(item, data);
   }
 
   private createEvent(data: DataModal): void {
@@ -48,10 +56,10 @@ export class CalendarStoreService extends Store<Calendar> {
     this.sortAndSetState(item, data);
   }
 
-  private updateEvent(data: DataModal): void {
+  private updateEvent(data: DataModal, event: EventDay): void {
     const item = this.findDayByMonth(data.day);
-    const index = item.events.findIndex(x => x.id === data.event?.id);
-    item.events[index] = data.event as EventDay;
+    const index = item.events.findIndex(x => x.id === event.id);
+    item.events[index] = event;
     this.sortAndSetState(item, data);
   }
 

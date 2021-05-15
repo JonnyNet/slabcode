@@ -37,6 +37,7 @@ export class MonthComponent implements OnInit {
   clickDay(day: Day, month: Month): void {
     if (day.disabled) { return; }
     this.modalService.open({
+      delete: false,
       day: day.name,
       month: month.index,
       year: month.year,
@@ -45,6 +46,7 @@ export class MonthComponent implements OnInit {
 
   clickEventDay(event: any, month: Month): void {
     this.modalService.open({
+      delete: false,
       event: event.event,
       day: event.day.name,
       month: month.index,

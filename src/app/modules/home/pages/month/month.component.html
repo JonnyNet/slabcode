@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="days space-between">
-        <app-day *ngFor="let day of month.days" [day]="day" (clickEventDay)="clickEventDay($event, month)"
+        <app-day *ngFor="let day of month.days; let i = index" id="day{{day.name}}-{{i}}" [day]="day" (clickEventDay)="clickEventDay($event, month)"
             (clickDay)="clickDay($event, month)"></app-day>
     </div>
 </div>

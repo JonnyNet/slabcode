@@ -1,7 +1,7 @@
 {
     "openWeatherMap": {
         "url": "http://api.openweathermap.org/data/2.5/forecast/daily",
-        "key": "2c675113f360d57a6a5d66c90346ad72"
+        "key": "30be848fcbaa2643f3d4aa7a2d2c4a6b"
     },
     "cities": [
         {
