@@ -1,6 +1,9 @@
-export interface EventDay{
-    color: string;
+import { EventColor } from './event-color';
+
+export interface EventDay {
+    id: string;
+    color: EventColor;
     city: string;
     message: string;
-    hour: Date;
+    date: Date;
 }

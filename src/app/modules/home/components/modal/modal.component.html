@@ -1,0 +1,71 @@
+<ng-container *ngIf="display$ | async as display">
+    <section [class.open]="display.state === 'open'" (click)="close()" >
+        <div (click)="$event.stopPropagation()">
+            <button class="close" type="button" (click)="close()">X</button>
+            <h3 class="text-center">Reminder</h3>
+            <div class="modal-container">
+                <form [formGroup]="form" (ngSubmit)="save(display.data)">
+                    <div class="row space-between">
+                        <div class="form-group col-50">
+                            <label for="day">Day:</label>
+                            <select name="day" formControlName="day" placeholder="Select Day">
+                                <option [value]="day" *ngFor="let day of daysMonth">{{ day }}</option>
+                            </select>
+                            <span
+                                *ngIf="form.controls.day.hasError('required') && (form.controls.day.dirty || form.controls.day.touched)"
+                                class="alert">
+                                Please enter day
+                            </span>
+                        </div>
+                        <div class="form-group col-50">
+                            <label for="hour">Hour:</label>
+                            <select name="hour" formControlName="hour" placeholder="Select Hour ">
+                                <option [value]="hour.value" *ngFor="let hour of hourDay">{{ hour.label }}</option>
+                            </select>
+                            <span
+                                *ngIf="form.controls.hour.hasError('required') && (form.controls.hour.dirty || form.controls.hour.touched)"
+                                class="alert">
+                                Please enter hour
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <input type="text" name="city" formControlName="city" autocomplete="off">
+                        <span
+                            *ngIf="form.controls.city.hasError('required') && (form.controls.city.dirty || form.controls.city.touched)"
+                            class="alert">
+                            Please enter city
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea name="message" rows="5" formControlName="message" maxlength="30"></textarea>
+                        <span
+                            *ngIf="form.controls.message.hasError('required') && (form.controls.message.dirty || form.controls.message.touched)"
+                            class="alert">
+                            Please enter message
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row space-between">
+                            <div class="color" [ngClass]="{'active': form.controls.color.value == item}"
+                                [ngStyle]="{ 'background-color': item.backgroundColor, 'border-color': item.borderColor  }"
+                                *ngFor="let item of configService.allConfig.colors"
+                                (click)="form.controls.color.setValue(item)"></div>
+                        </div>
+                        <span *ngIf="form.controls.color.hasError('required') && (form.controls.color.dirty || form.controls.color.touched)" class="alert">
+                            Please enter color
+                        </span>
+                    </div>
+
+                    <div class="row space-evenly">
+                        <button type="submit" [disabled]="!form.valid" class="btn-form">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</ng-container>

@@ -1,7 +1,8 @@
-import { FormStyle, getLocaleDayNames, TranslationWidth } from '@angular/common';
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { Day } from 'src/app/shared/models/day';
+import { EventDay } from 'src/app/shared/models/event-day';
 import { Month } from 'src/app/shared/models/month';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,6 @@ import { Month } from 'src/app/shared/models/month';
 export class CalendarService {
 
   private today = new Date();
-  readonly dayNames = getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Wide);
 
   constructor(@Inject(LOCALE_ID) private locale: string) { }
 
@@ -32,6 +32,18 @@ export class CalendarService {
     const next = this.daysMonthNext(lastDayMonth, firstDayMonthNext);
     month.days = prev.concat(days).concat(next);
     return this.validCurrentMonth(month);
+  }
+
+  createEvent(data: any): EventDay{
+    const target = data.target;
+    const date = new Date(target.year, target.month, target.day.name, Number(data.form.hour));
+    return {
+      id: uuidv4(),
+      city: data.form.city,
+      color: data.form.color,
+      message: data.form.message,
+      date,
+    };
   }
 
   get currentMonth(): number {

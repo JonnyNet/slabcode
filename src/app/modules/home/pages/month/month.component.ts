@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { FormStyle, getLocaleDayNames, TranslationWidth } from '@angular/common';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { CalendarStoreService } from 'src/app/core/services/calendar-store.service';
-import { CalendarService } from 'src/app/core/services/calendar.service';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { Day } from 'src/app/shared/models/day';
 import { Month } from 'src/app/shared/models/month';
 
@@ -10,20 +12,34 @@ import { Month } from 'src/app/shared/models/month';
   templateUrl: './month.component.html',
   styleUrls: ['./month.component.scss']
 })
-export class MonthComponent {
+export class MonthComponent implements OnInit {
 
   month$!: Observable<Month>;
+  dayNames = getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Wide);
 
   constructor(
-    public readonly calendarService: CalendarService,
-    public readonly storaService: CalendarStoreService) {
+    @Inject(LOCALE_ID) private locale: string,
+    public readonly storaService: CalendarStoreService,
+    private readonly modalService: ModalService) {
     this.month$ = this.storaService.month$;
     this.storaService.getCurrentMonth();
   }
 
-  clickDay(day: Day): void {
+  ngOnInit(): void {
+    this.modalService.watch()
+      .pipe(filter(res => res.data !== undefined && res.state === 'close'))
+      .subscribe(status => {
+        this.storaService.saveEvent(status.data);
+      });
+  }
+
+  clickDay(day: Day, month: Month): void {
     if (day.disabled) { return; }
-    console.log(day);
+    this.modalService.open({
+      day,
+      month: month.index,
+      year: month.year,
+    });
   }
 
   getNewMonth(year: number, month: number, action: number): void {

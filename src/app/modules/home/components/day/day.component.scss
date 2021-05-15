@@ -1,12 +1,26 @@
 @import "../../../../app.theme.scss";
 
 :host {
+    border: 1px solid $primary-color;
     .day {
-        height: 120px;
-        box-shadow: -1px -1px $primary-color, inset -1px -1px 0 0 $primary-color;
+        min-height: 120px;
+        height: 100%;
         cursor: pointer;
         padding: 10px;
         color: $active-day;
+        word-wrap: break-word;
+
+        .message{
+            width: 100%;
+            padding: 2px 5px;
+            margin-top: 2px;
+            border-radius: 2px;
+            border: 1px solid transparent;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 10px;
+            overflow: hidden;
+        }
     }
 
     .wee-kend {
