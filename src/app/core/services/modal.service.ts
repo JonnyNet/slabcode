@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { DataModal } from 'src/app/shared/models/data-modal';
 
 export interface StateModal {
   state: 'open' | 'close';
-  data?: any;
+  data?: DataModal;
 }
 
 @Injectable({
@@ -17,11 +18,11 @@ export class ModalService {
     return this.display.asObservable();
   }
 
-  open(data?: any): void {
+  open(data?: DataModal): void {
     this.display.next({ state: 'open', data });
   }
 
-  close(data?: any): void {
+  close(data?: DataModal): void {
     this.display.next({ state: 'close', data });
   }
 }

@@ -1,7 +1,8 @@
 import { EventDay } from './event-day';
 
-export interface EventMonth {
+export interface DataModal {
     year: number;
     month: number;
     day: number;
+    event?: EventDay;
 }

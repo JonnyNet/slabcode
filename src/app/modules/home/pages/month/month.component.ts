@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CalendarStoreService } from 'src/app/core/services/calendar-store.service';
 import { ModalService } from 'src/app/core/services/modal.service';
+import { DataModal } from 'src/app/shared/models/data-modal';
 import { Day } from 'src/app/shared/models/day';
 import { Month } from 'src/app/shared/models/month';
 
@@ -29,14 +30,23 @@ export class MonthComponent implements OnInit {
     this.modalService.watch()
       .pipe(filter(res => res.data !== undefined && res.state === 'close'))
       .subscribe(status => {
-        this.storaService.saveEvent(status.data);
+        this.storaService.saveEvent(status.data as DataModal);
       });
   }
 
   clickDay(day: Day, month: Month): void {
     if (day.disabled) { return; }
     this.modalService.open({
-      day,
+      day: day.name,
+      month: month.index,
+      year: month.year,
+    });
+  }
+
+  clickEventDay(event: any, month: Month): void {
+    this.modalService.open({
+      event: event.event,
+      day: event.day.name,
       month: month.index,
       year: month.year,
     });

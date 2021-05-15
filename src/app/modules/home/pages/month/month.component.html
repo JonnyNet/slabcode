@@ -1,7 +1,8 @@
 <div class="month" *ngIf="month$ | async as month">
     <div class="header row text-center">
         <div class="back fill-row">
-            <button class="btn" [disabled]="month.prev" (click)="getNewMonth(month.year, month.index, - 1)">&lt;</button>
+            <button class="btn" [disabled]="month.prev"
+                (click)="getNewMonth(month.year, month.index, - 1)">&lt;</button>
         </div>
         <div class="title fill-row">{{ month.name }}</div>
         <div class="next fill-row">
@@ -14,7 +15,8 @@
         </div>
     </div>
     <div class="days space-between">
-        <app-day *ngFor="let day of month.days" [day]="day" (clickDay)="clickDay($event, month)"></app-day>
+        <app-day *ngFor="let day of month.days" [day]="day" (clickEventDay)="clickEventDay($event, month)"
+            (clickDay)="clickDay($event, month)"></app-day>
     </div>
 </div>
 

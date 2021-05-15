@@ -1,4 +1,5 @@
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
+import { DataModal } from 'src/app/shared/models/data-modal';
 import { Day } from 'src/app/shared/models/day';
 import { EventDay } from 'src/app/shared/models/event-day';
 import { Month } from 'src/app/shared/models/month';
@@ -34,16 +35,11 @@ export class CalendarService {
     return this.validCurrentMonth(month);
   }
 
-  createEvent(data: any): EventDay{
-    const target = data.target;
-    const date = new Date(target.year, target.month, target.day.name, Number(data.form.hour));
+  createEvent(data: DataModal): EventDay{
     return {
+      ...data.event,
       id: uuidv4(),
-      city: data.form.city,
-      color: data.form.color,
-      message: data.form.message,
-      date,
-    };
+    } as EventDay;
   }
 
   get currentMonth(): number {
