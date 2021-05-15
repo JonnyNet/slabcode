@@ -1,0 +1,8 @@
+<div class="day" [ngClass]="{'wee-kend': day.dayOfWeek === 0 || day.dayOfWeek === 6, 'disabled' : day.disabled }"
+    (click)="clickDay.next(day)">
+    <div class="number-day">{{ day.name }}</div>
+    <div [ngStyle]="{ 'background-color': item.color.backgroundColor, 'border-color': item.color.borderColor, 'color':  item.color.color }"
+        class="message" (click)="clickEvent($event, item)" *ngFor="let item of day.events">
+        {{ item.message }}
+    </div>
+</div>

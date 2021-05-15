@@ -1,0 +1,23 @@
+<div class="month" *ngIf="month$ | async as month">
+    <div class="header row text-center">
+        <div class="back fill-row">
+            <button class="btn" [disabled]="month.prev"
+                (click)="getNewMonth(month.year, month.index, - 1)">&lt;</button>
+        </div>
+        <div class="title fill-row">{{ month.name }}</div>
+        <div class="next fill-row">
+            <button class="btn" (click)="getNewMonth(month.year, month.index, + 1)">&gt;</button>
+        </div>
+    </div>
+    <div class="header-day row">
+        <div class="name-day text-center" *ngFor="let name of dayNames">
+            <span>{{ name }}</span>
+        </div>
+    </div>
+    <div class="days space-between">
+        <app-day *ngFor="let day of month.days; let i = index" id="day{{day.name}}-{{i}}" [day]="day" (clickEventDay)="clickEventDay($event, month)"
+            (clickDay)="clickDay($event, month)"></app-day>
+    </div>
+</div>
+
+<app-modal></app-modal>
